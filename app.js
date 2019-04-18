@@ -330,14 +330,14 @@ function handleDialogFlowResponse(sender, response) {
     let contexts = response.outputContexts;
     let parameters = response.parameters;
 
-    sendTypingOff(sender); //manda messaggio sonoro al messenger
+    sendTypingOff(sender); //manda messaggio sonoro al messenger...
 
     if (isDefined(action)) {
         handleDialogFlowAction(sender, action, messages, contexts, parameters);
     } else if (isDefined(messages)) {
         handleMessages(messages, sender);
     } else if (responseText == '' && !isDefined(action)) {
-        //dialogflow could not evaluate input.
+        //dialogflow could not evaluate input --> non è stato inserito un Default Fallback Intent, quindi mando io un messaggio...
         sendTextMessage(sender, "I'm not sure what you want. Can you be more specific?");
     } else if (isDefined(responseText)) {
         sendTextMessage(sender, responseText);
