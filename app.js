@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const request = require('request');
 
-// mi importo il file di configurazione
+// mi importo il file di configurazione 
 const config = require('./config');
 
 const app = express();  // express è una applicazione node.js minimale flessibile che fornisce
