@@ -132,6 +132,9 @@ app.post('/webhook/', function (req, res) {
                     receivedDeliveryConfirmation(messagingEvent);
                 } else if (messagingEvent.postback) {
                     receivedPostback(messagingEvent);
+                    // i postback occorrono quando si preme su un PostbackButton, un Get Started Button, Persistent Menu o Structured Message è 'tapped'
+                    // il payload è associato al pulsante ovvero al postback
+                    // i postback in pratica vengono inviati quando l'utente clicca su un pulsante, su un elemento di un menu
                 } else if (messagingEvent.read) {
                     receivedMessageRead(messagingEvent);
                 } else if (messagingEvent.account_linking) {
@@ -297,22 +300,25 @@ function handleMessages(messages, sender) {
     for (var i = 0; i < messages.length; i++) {
 
         if ( previousType == "card" && (messages[i].message != "card" || i == messages.length - 1)) {
+            // il precedente è un card ma l'attuale non lo è, quindi è il momento di fare il disply della gallery
             timeout = (i - 1) * timeoutInterval;
             setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
             cardTypes = [];
             timeout = i * timeoutInterval;
-            setTimeout(handleMessage.bind(null, messages[i], sender), timeout);
+            setTimeout(handleMessage.bind(null, messages[i], sender), timeout); // dopo aver visualizzato la gallery gestisco l'attuale messaggio
+                     //(handleMessage gestisce tutti i messaggi di testo, immagini o quick-replies)
         } else if ( messages[i].message == "card" && i == messages.length - 1) {
-            cardTypes.push(messages[i]);
+            // il messaggio, che è una card è l'ultimo dei messaggi, per cui è arrivato il momento di visualizzare la gallery
+            cardTypes.push(messages[i]); // metto il messaggio nella card gallery
             timeout = (i - 1) * timeoutInterval;
             setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
             cardTypes = [];
         } else if ( messages[i].message == "card") {
-            cardTypes.push(messages[i]);
+            cardTypes.push(messages[i]); // metto il messaggio nella card gallery
         } else  {
-
+            // E' un messaggio di testo o un altro tipo di messaggio differente da "card"
             timeout = i * timeoutInterval;
-            setTimeout(handleMessage.bind(null, messages[i], sender), timeout);
+            setTimeout(handleMessage.bind(null, messages[i], sender), timeout); //handleMessage gestisce tutti i messaggi di testo, immagini o quick-replies
         }
 
         previousType = messages[i].message;
@@ -731,7 +737,7 @@ function receivedPostback(event) {
 
     // The 'payload' param is a developer-defined field which is set in a postback
     // button for Structured Messages.
-    var payload = event.postback.payload;
+    var payload = event.postback.payload; // il payload è associato al pulsante ovvero al postback
 
     switch (payload) {
         default:
