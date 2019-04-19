@@ -87,7 +87,7 @@ const sessionIds = new Map();
 // Index route
 app.get('/', function (req, res) {
     console.log("request");
-    res.send('Hello world, I am a chat bot')
+    res.send('Hello world, I am a chat bot wich provide a dialog from Messenger interface')
 })
 
 // for Facebook verification
