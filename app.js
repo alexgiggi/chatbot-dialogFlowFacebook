@@ -245,6 +245,9 @@ if(contexts[0].parameters){
         (contexts[0].name.includes('job_application') || contexts[0].name.includes('job-application-details_dialog_context')
         || contexts[0].name.includes('id_dialog_context'))
         && contexts[0].parameters) {
+            
+            console.log("Settaggio variabili....");
+
             let phone_number = (isDefined(contexts[0].parameters.fields['phone-number'])
                 && contexts[0].parameters.fields['phone-number'] != '') ? contexts[0].parameters.fields['phone-number'].stringValue : '';
             let user_name = (isDefined(contexts[0].parameters.fields['user-name'])
