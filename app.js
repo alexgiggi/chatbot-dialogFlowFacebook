@@ -290,7 +290,7 @@ if(contexts[0].parameters){
 
 function sendEmail(subject, content) {
 
-    const sgMail = require('@sendgrid/mail');
+    const sgMail = require('sendgrid').mail;
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
                     to: config.EMAIL_TO,
