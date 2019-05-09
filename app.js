@@ -229,6 +229,7 @@ function handleEcho(messageId, appId, metadata) {
 function handleDialogFlowAction(sender, action, messages, contexts, parameters) {
 
     console.log("Inside handleDialogFlowAction, action is %s", action);
+    console.log("contexts[0].name is %s", contexts[0].name);
 
     switch (action) {
         case "detailed-application":
