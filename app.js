@@ -251,6 +251,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                     '.<br> Years of experience: ' + years_of_experience + '.' +
                     '.<br> Phone number: ' + phone_number + '.';
 
+                console.log("Sending this mail: %s", emailContent);
                 sendEmail('New job application', emailContent);
 
                 handleMessages(messages, sender);
