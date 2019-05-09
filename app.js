@@ -288,19 +288,33 @@ if(contexts[0].parameters){
     }
 }
 
-function sendEmail(subject, content) {
+function sendEmail(subject, content_my) {
 
-    const sgMail = require('sendgrid').mail;
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const msg = {
-                    to: config.EMAIL_TO,
-                    from: config.EMAIL_FROM,
-                    subject: subject,
-                    text: content,
-                    html: content,
-                };
+    var helper = require('sendgrid').mail;
+    var fromEmail = new helper.Email(config.EMAIL_FROM);
+    var toEmail = new helper.Email(config.EMAIL_TO);
+    var content = new helper.Content('text/plain', content_my);
+    var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
-    sgMail.send(msg);
+    var sg = require('sendgrid')(config.SENGRID_API_KEY);
+    var request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: mail.toJSON()
+    });
+
+    sg.API(request, function (error, response) {
+    if (error) {
+        console.log('Error response received');
+    }
+    else{
+        console.log('***** OK send mail ************');
+    }
+
+    console.log(response.statusCode);
+    console.log(response.body);
+    console.log(response.headers);
+    });
 
     /*
 
