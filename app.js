@@ -289,6 +289,21 @@ if(contexts[0].parameters){
 }
 
 function sendEmail(subject, content) {
+
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+                    to: config.EMAIL_TO,
+                    from: config.EMAIL_FROM,
+                    subject: subject,
+                    text: content,
+                    html: content,
+                };
+
+    sgMail.send(msg);
+
+    /*
+
     console.log('sending email');
     var helper = require('sendgrid').mail;
 
@@ -310,6 +325,8 @@ function sendEmail(subject, content) {
         console.log(response.body)
         console.log(response.headers)
     })
+
+    */
 }
 
 function handleMessage(message, sender) {
