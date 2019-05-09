@@ -244,9 +244,10 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             let job_vacancy = (isDefined(contexts[0].parameters.fields['job-vacancy'])
                 && contexts[0].parameters.fields['job-vacancy'] != '') ? contexts[0].parameters.fields['job-vacancy'].stringValue : '';
             if (phone_number != '' && user_name != '' && previous_job != '' && years_of_experience != ''
-                && job_vacancy != '') {
+                //&& job_vacancy != ''
+                ) {
 
-                let emailContent = 'A new job enquiery from ' + user_name + ' for the job: ' + job_vacancy +
+                let emailContent = 'A new job enquiery from ' + user_name + //' for the job: ' + job_vacancy +
                     '.<br> Previous job position: ' + previous_job + '.' +
                     '.<br> Years of experience: ' + years_of_experience + '.' +
                     '.<br> Phone number: ' + phone_number + '.';
@@ -405,13 +406,17 @@ function handleDialogFlowResponse(sender, response) {
     sendTypingOff(sender); //manda messaggio sonoro al messenger...
 
     if (isDefined(action)) {
+        console.log("call handleDialogFlowAction");
         handleDialogFlowAction(sender, action, messages, contexts, parameters);
     } else if (isDefined(messages)) {
+        console.log("call handleMessages");
         handleMessages(messages, sender);
     } else if (responseText == '' && !isDefined(action)) {
         //dialogflow could not evaluate input --> non è stato inserito un Default Fallback Intent, quindi mando io un messaggio...
+        console.log("sendTextMessage: %s", "I'm not sure what you want. Can you be more specific?");
         sendTextMessage(sender, "I'm not sure what you want. Can you be more specific?");
     } else if (isDefined(responseText)) {
+        console.log("sendTextMessage: %s", responseText);
         sendTextMessage(sender, responseText);
     }
 }
@@ -452,6 +457,7 @@ async function sendToDialogFlow(sender, textString, params) {
         const result = responses[0].queryResult;
 
         // qui leggiamo la risposta di dialogFlow per vedere cosa ha trovato!!
+        console.log("Prima di handleDialogFlowResponse");
         handleDialogFlowResponse(sender, result);
     } catch (e) {
         console.log('error');
