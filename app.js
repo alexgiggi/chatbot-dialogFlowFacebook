@@ -230,7 +230,8 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
     console.log("Inside handleDialogFlowAction, action is %s", action);
     console.log("contexts[0].name is %s", contexts[0].name);
-
+    console.log("contexts[0].parameters is %s", contexts[0].parameters);
+    
     switch (action) {
         case "detailed-application":
 
