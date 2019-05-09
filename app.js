@@ -242,7 +242,7 @@ if(contexts[0].parameters){
         case "detailed-application":
 
         if (isDefined(contexts[0]) &&
-        (contexts[0].name.includes('job_application') || contexts[0].name.includes('job-application-details_dialog_context')
+        (contexts[0].name.includes('job-application') || contexts[0].name.includes('job-application-details_dialog_context')
         || contexts[0].name.includes('id_dialog_context'))
         && contexts[0].parameters) {
             
