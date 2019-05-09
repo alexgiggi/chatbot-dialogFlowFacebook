@@ -246,6 +246,12 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                 && contexts[0].parameters.fields['years-of-experience'] != '') ? contexts[0].parameters.fields['years-of-experience'].stringValue : '';
             let job_vacancy = (isDefined(contexts[0].parameters.fields['job-vacancy'])
                 && contexts[0].parameters.fields['job-vacancy'] != '') ? contexts[0].parameters.fields['job-vacancy'].stringValue : '';
+
+                console.log('A new job enquiery from ' + user_name + '.<br> Previous job position: ' + previous_job + '.' +
+                '.<br> Years of experience: ' + years_of_experience + '.' +
+                '.<br> Phone number: ' + phone_number + '.');
+
+
             if (phone_number != '' && user_name != '' && previous_job != '' && years_of_experience != ''
                 //&& job_vacancy != ''
                 ) {
