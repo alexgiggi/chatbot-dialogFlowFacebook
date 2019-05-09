@@ -42,7 +42,15 @@ if (!config.FB_APP_SECRET) {
 if (!config.SERVER_URL) { //used for ink to static files
     throw new Error('missing SERVER_URL');
 }
-
+if (!config.SENGRID_API_KEY) { //used for ink to static files
+    throw new Error('missing SENGRID_API_KEY');
+}
+if (!config.EMAIL_FROM) { //used for ink to static files
+    throw new Error('missing EMAIL_FROM');
+}
+if (!config.EMAIL_TO) { //used for ink to static files
+    throw new Error('missing EMAIL_TO');
+}
 
 // viene settata la porta a 5000
 app.set('port', (process.env.PORT || 5000))
@@ -157,10 +165,10 @@ app.post('/webhook/', function (req, res) {
 
 function receivedMessage(event) {
 
-    var senderID = event.sender.id;
+    var senderID = event.sender.id; // user che ha mandato il messaggio
     var recipientID = event.recipient.id;
-    var timeOfMessage = event.timestamp;
-    var message = event.message;
+    var timeOfMessage = event.timestamp; // timer del messaggio
+    var message = event.message; // messaggio
 
     if (!sessionIds.has(senderID)) {
         sessionIds.set(senderID, uuid.v1());
@@ -170,19 +178,20 @@ function receivedMessage(event) {
     console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
     console.log(JSON.stringify(message));
 
-    var isEcho = message.is_echo; //messaggio ricevuto
+    var isEcho = message.is_echo; // verifica se il messaggio è un echo
     var messageId = message.mid;
     var appId = message.app_id;
     var metadata = message.metadata;
 
     // You may get a text or attachment but not both
+    // ora la parte più importante del messaggio
     // solo uno dei seguenti tre oggetti può arrivare valorizzato
     var messageText = message.text;
     var messageAttachments = message.attachments;
     var quickReply = message.quick_reply;
 
     if (isEcho) {
-        handleEcho(messageId, appId, metadata);
+        handleEcho(messageId, appId, metadata); //al momento logga e basta
         return;
     } else if (quickReply) {
         handleQuickReply(senderID, quickReply, messageId);
@@ -219,10 +228,65 @@ function handleEcho(messageId, appId, metadata) {
 
 function handleDialogFlowAction(sender, action, messages, contexts, parameters) {
     switch (action) {
+        case "detailed-application":
+
+        if (isDefined(contexts[0]) &&
+        (contexts[0].name.includes('job_application') || contexts[0].name.includes('job-application-details_dialog_context'))
+        && contexts[0].parameters) {
+            let phone_number = (isDefined(contexts[0].parameters.fields['phone-number'])
+                && contexts[0].parameters.fields['phone-number'] != '') ? contexts[0].parameters.fields['phone-number'].stringValue : '';
+            let user_name = (isDefined(contexts[0].parameters.fields['user-name'])
+                && contexts[0].parameters.fields['user-name'] != '') ? contexts[0].parameters.fields['user-name'].stringValue : '';
+            let previous_job = (isDefined(contexts[0].parameters.fields['previous-job'])
+                && contexts[0].parameters.fields['previous-job'] != '') ? contexts[0].parameters.fields['previous-job'].stringValue : '';
+            let years_of_experience = (isDefined(contexts[0].parameters.fields['years-of-experience'])
+                && contexts[0].parameters.fields['years-of-experience'] != '') ? contexts[0].parameters.fields['years-of-experience'].stringValue : '';
+            let job_vacancy = (isDefined(contexts[0].parameters.fields['job-vacancy'])
+                && contexts[0].parameters.fields['job-vacancy'] != '') ? contexts[0].parameters.fields['job-vacancy'].stringValue : '';
+            if (phone_number != '' && user_name != '' && previous_job != '' && years_of_experience != ''
+                && job_vacancy != '') {
+
+                let emailContent = 'A new job enquiery from ' + user_name + ' for the job: ' + job_vacancy +
+                    '.<br> Previous job position: ' + previous_job + '.' +
+                    '.<br> Years of experience: ' + years_of_experience + '.' +
+                    '.<br> Phone number: ' + phone_number + '.';
+
+                sendEmail('New job application', emailContent);
+
+                handleMessages(messages, sender);
+            } else {
+                handleMessages(messages, sender);
+            }
+        }
+        break;
         default:
             //unhandled action, just send back the text
             handleMessages(messages, sender);
     }
+}
+
+function sendEmail(subject, content) {
+    console.log('sending email');
+    var helper = require('sendgrid').mail;
+
+    var from_email = new helper.Email(config.EMAIL_FROM);
+    var to_email = new helper.Email(config.EMAIL_TO);
+    var subject = subject;
+    var content = new helper.Content("text/html", content);
+    var mail = new helper.Mail(from_email, subject, to_email, content);
+
+    var sg = require('sendgrid')(config.SENGRID_API_KEY);
+    var request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: mail.toJSON()
+    });
+
+    sg.API(request, function(error, response) {
+        console.log(response.statusCode)
+        console.log(response.body)
+        console.log(response.headers)
+    })
 }
 
 function handleMessage(message, sender) {
@@ -297,10 +361,11 @@ function handleMessages(messages, sender) {
     let previousType ;
     let cardTypes = [];
     let timeout = 0;
+    // si va in loop su tutti i messaggi ricevuti
     for (var i = 0; i < messages.length; i++) {
 
         if ( previousType == "card" && (messages[i].message != "card" || i == messages.length - 1)) {
-            // il precedente è un card ma l'attuale non lo è, quindi è il momento di fare il disply della gallery
+            // il precedente è un card ma l'attuale non lo è, quindi è il momento di fare il display della gallery
             timeout = (i - 1) * timeoutInterval;
             setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
             cardTypes = [];
@@ -351,16 +416,20 @@ function handleDialogFlowResponse(sender, response) {
 }
 
 async function sendToDialogFlow(sender, textString, params) {
+    
+    // è la funzione che realizza la request verso dialogflow
 
     sendTypingOn(sender); // questo chiede a Messenger di mostrare i puntini e il sound di attesa risposta... :-)
 
     try {
+        // come prima cosa viene settata la sessione che consentirà a dialogFlow di tracciare le attività del particolare user (sender)
+
         const sessionPath = sessionClient.sessionPath(
             config.GOOGLE_PROJECT_ID,
             sessionIds.get(sender)
         );
         
-        // costruiamo la request da inviare a DialogFlow
+        // costruiamo la Request da inviare a DialogFlow
         const request = {
             session: sessionPath,
             queryInput: {
@@ -389,9 +458,6 @@ async function sendToDialogFlow(sender, textString, params) {
     }
 
 }
-
-
-
 
 function sendTextMessage(recipientId, text) {
     var messageData = {
