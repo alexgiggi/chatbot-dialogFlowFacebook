@@ -274,7 +274,7 @@ if(contexts[0].parameters){
                     '.<br> Phone number: ' + phone_number + '.';
 
                 console.log("Sending this mail: %s", emailContent);
-                sendEmail('New job application', emailContent);
+                sendEmail('New job application (from dialogflow!! :-) )', emailContent);
 
                 handleMessages(messages, sender);
             } else {
