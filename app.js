@@ -294,7 +294,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                 let buttons = [
                     {
                         type: "web_url",
-                        url: "https://www.myapple.com/trackorder",
+                        url: "https://www.google.com",
                         title: "Traccia la mia spedizione"
                     },
                     {
