@@ -514,7 +514,7 @@ async function sendToDialogFlow(sender, textString, params) {
 
     try {
         // come prima cosa viene settata la sessione che consentirà a dialogFlow di tracciare le attività del particolare user (sender)
-
+        console.log('config.GOOGLE_PROJECT_ID: %s', config.GOOGLE_PROJECT_ID);
         const sessionPath = sessionClient.sessionPath(
             config.GOOGLE_PROJECT_ID,
             sessionIds.get(sender)
