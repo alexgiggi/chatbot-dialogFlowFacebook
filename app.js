@@ -282,6 +282,36 @@ if(contexts[0].parameters){
             }
         }
         break;
+        case "faq-spedizione":
+            handleMessages(messages, sender);
+
+            sendTypingOn(sender);
+
+            setTimeout(() => {
+                let buttons = [
+                    {
+                        type: "web_url",
+                        url: "https://www.myapple.com/trackorder",
+                        title: "Traccia la mia spedizione"
+                    },
+                    {
+                        type: "phone_number",
+                        title: "Chiamaci",
+                        payload: "+393286457824"
+                    },
+                    {
+                        type: "postback",
+                        title: "informami sulla chat",
+                        payload: "CHAT"
+                    }
+
+                ];
+                sendButtonMessage(sender, "cosa vuoi fare adesso?", buttons);
+            }, 3000); // aspetto 3 secondi
+
+
+
+
         default:
             //unhandled action, just send back the text
             handleMessages(messages, sender);
@@ -865,6 +895,9 @@ function receivedPostback(event) {
     var payload = event.postback.payload; // il payload è associato al pulsante ovvero al postback
 
     switch (payload) {
+        case "CHAT":
+            sendTextMessage(senderID, "Anche a me piace chattare... altre domande?");
+            break;
         default:
             //unindentified payload
             sendTextMessage(senderID, "I'm not sure what you want. Can you be more specific?");
