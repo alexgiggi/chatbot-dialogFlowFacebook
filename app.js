@@ -548,7 +548,7 @@ async function sendToDialogFlow(sender, textString, params) {
 }
 
 function sendTextMessage(recipientId, text) {
-    console.log("sto mandando un messaggio al messenger");
+    console.log("sto mandando un messaggio al messenger, testo: $s", text);
 
     var messageData = {
         recipient: {
