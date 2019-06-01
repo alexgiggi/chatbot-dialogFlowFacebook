@@ -579,7 +579,7 @@ function sendImageMessage(recipientId, imageUrl) {
             }
         }
     };
-
+    console.log("From sendImageMessage");
     callSendAPI(messageData);
 }
 
@@ -602,6 +602,7 @@ function sendGifMessage(recipientId) {
         }
     };
 
+    console.log("From sendGif");
     callSendAPI(messageData);
 }
 
@@ -624,6 +625,7 @@ function sendAudioMessage(recipientId) {
         }
     };
 
+    console.log("From sendAudio");
     callSendAPI(messageData);
 }
 
@@ -645,7 +647,7 @@ function sendVideoMessage(recipientId, videoName) {
             }
         }
     };
-
+    console.log("From sendVideo");
     callSendAPI(messageData);
 }
 
@@ -668,6 +670,7 @@ function sendFileMessage(recipientId, fileName) {
         }
     };
 
+    console.log("From sendFile");
     callSendAPI(messageData);
 }
 
@@ -694,6 +697,7 @@ function sendButtonMessage(recipientId, text, buttons) {
         }
     };
 
+    console.log("From sendButton");
     callSendAPI(messageData);
 }
 
@@ -714,6 +718,7 @@ function sendGenericMessage(recipientId, elements) {
         }
     };
 
+    console.log("From sendGenericMessage");
     callSendAPI(messageData);
 }
 
@@ -746,6 +751,7 @@ function sendReceiptMessage(recipientId, recipient_name, currency, payment_metho
         }
     };
 
+    console.log("From sendReceiptMessage");
     callSendAPI(messageData);
 }
 
@@ -765,6 +771,7 @@ function sendQuickReply(recipientId, text, replies, metadata) {
         }
     };
 
+    console.log("From sendQuickReply");
     callSendAPI(messageData);
 }
 
@@ -781,6 +788,7 @@ function sendReadReceipt(recipientId) {
         sender_action: "mark_seen"
     };
 
+    console.log("From sendReadReceipt");
     callSendAPI(messageData);
 }
 
@@ -798,6 +806,7 @@ function sendTypingOn(recipientId) {
         sender_action: "typing_on"
     };
 
+    console.log("From sendTypingOn");
     callSendAPI(messageData);
 }
 
@@ -815,6 +824,7 @@ function sendTypingOff(recipientId) {
         sender_action: "typing_off"
     };
 
+    console.log("From typingOff");
     callSendAPI(messageData);
 }
 
@@ -841,7 +851,7 @@ function sendAccountLinking(recipientId) {
             }
         }
     };
-
+    console.log("From sendAccountLinking");
     callSendAPI(messageData);
 }
 
