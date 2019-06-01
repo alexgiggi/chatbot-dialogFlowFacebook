@@ -310,12 +310,10 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                 sendButtonMessage(sender, "cosa vuoi fare adesso?", buttons);
             }, 3000); // aspetto 3 secondi
 
-
-
-
         default:
             //unhandled action, just send back the text
-            handleMessages(messages, sender);
+
+            //handleMessages(messages, sender);
     }
 }
 
