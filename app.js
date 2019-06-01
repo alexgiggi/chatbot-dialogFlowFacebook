@@ -7,11 +7,12 @@ const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const request = require('request');
 
+
 // mi importo il file di configurazione 
 const config = require('./config');
 
-const app = express();  // express è una applicazione node.js minimale flessibile che fornisce
-                        // un set di utilità per l'applicazione
+const app = express(); // express è una applicazione node.js minimale flessibile che fornisce
+// un set di utilità per l'applicazione
 const uuid = require('uuid');
 
 
@@ -82,24 +83,22 @@ const credentials = {
     private_key: config.GOOGLE_PRIVATE_KEY,
 };
 
-const sessionClient = new dialogflow.SessionsClient(
-    {
-        projectId: config.GOOGLE_PROJECT_ID,
-        credentials
-    }
-);
+const sessionClient = new dialogflow.SessionsClient({
+    projectId: config.GOOGLE_PROJECT_ID,
+    credentials
+});
 
 
 const sessionIds = new Map();
 
 // Index route
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     console.log("request");
     res.send('Hello world, I am a chat bot wich provide a dialog from Messenger interface')
 })
 
 // for Facebook verification
-app.get('/webhook/', function (req, res) {
+app.get('/webhook/', function(req, res) {
     console.log("request");
     if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === config.FB_VERIFY_TOKEN) {
         res.status(200).send(req.query['hub.challenge']);
@@ -116,7 +115,7 @@ app.get('/webhook/', function (req, res) {
  * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
  *
  */
-app.post('/webhook/', function (req, res) {
+app.post('/webhook/', function(req, res) {
 
     var data = req.body;
 
@@ -126,12 +125,12 @@ app.post('/webhook/', function (req, res) {
     if (data.object == 'page') {
         // Iterate over each entry
         // There may be multiple if batched
-        data.entry.forEach(function (pageEntry) {
+        data.entry.forEach(function(pageEntry) {
             var pageID = pageEntry.id;
             var timeOfEvent = pageEntry.time;
 
             // Iterate over each messaging event
-            pageEntry.messaging.forEach(function (messagingEvent) {
+            pageEntry.messaging.forEach(function(messagingEvent) {
                 if (messagingEvent.optin) {
                     receivedAuthentication(messagingEvent);
                 } else if (messagingEvent.message) {
@@ -208,7 +207,7 @@ function receivedMessage(event) {
 }
 
 
-function handleMessageAttachments(messageAttachments, senderID){
+function handleMessageAttachments(messageAttachments, senderID) {
     //for now just reply
     sendTextMessage(senderID, "Attachment received. Thank you.");
 }
@@ -230,13 +229,13 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
     console.log("Inside handleDialogFlowAction, action is %s", action);
 
-    if (contexts[0] !=null){
+    if (contexts[0] != null) {
         console.log("contexts[0].name is %s", contexts[0].name);
         console.log("contexts[0].parameters is %s", contexts[0].parameters);
-        
-        if(contexts[0].parameters){
+
+        if (contexts[0].parameters) {
             console.log("contexts[0].parameters == TRUE");
-        }else{
+        } else {
             console.log("contexts[0].parameters == FALSE");
         }
     }
@@ -244,55 +243,54 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     switch (action) {
         case "detailed-application":
 
-        if (isDefined(contexts[0]) &&
-        (contexts[0].name.includes('job-application') || contexts[0].name.includes('job-application-details_dialog_context')
-        || contexts[0].name.includes('id_dialog_context'))
-        && contexts[0].parameters) {
-            
-            console.log("Settaggio variabili....");
+            if (isDefined(contexts[0]) &&
+                (contexts[0].name.includes('job-application') || contexts[0].name.includes('job-application-details_dialog_context') ||
+                    contexts[0].name.includes('id_dialog_context')) &&
+                contexts[0].parameters) {
 
-            let phone_number = (isDefined(contexts[0].parameters.fields['phone-number'])
-                && contexts[0].parameters.fields['phone-number'] != '') ? contexts[0].parameters.fields['phone-number'].stringValue : '';
-            let user_name = (isDefined(contexts[0].parameters.fields['user-name'])
-                && contexts[0].parameters.fields['user-name'] != '') ? contexts[0].parameters.fields['user-name'].stringValue : '';
-            let previous_job = (isDefined(contexts[0].parameters.fields['previous-job'])
-                && contexts[0].parameters.fields['previous-job'] != '') ? contexts[0].parameters.fields['previous-job'].stringValue : '';
-            let years_of_experience = (isDefined(contexts[0].parameters.fields['years-of-experience'])
-                && contexts[0].parameters.fields['years-of-experience'] != '') ? contexts[0].parameters.fields['years-of-experience'].stringValue : '';
-            let job_vacancy = (isDefined(contexts[0].parameters.fields['job-vacancy'])
-                && contexts[0].parameters.fields['job-vacancy'] != '') ? contexts[0].parameters.fields['job-vacancy'].stringValue : '';
+                console.log("Settaggio variabili....");
+
+                let phone_number = (isDefined(contexts[0].parameters.fields['phone-number']) &&
+                    contexts[0].parameters.fields['phone-number'] != '') ? contexts[0].parameters.fields['phone-number'].stringValue : '';
+                let user_name = (isDefined(contexts[0].parameters.fields['user-name']) &&
+                    contexts[0].parameters.fields['user-name'] != '') ? contexts[0].parameters.fields['user-name'].stringValue : '';
+                let previous_job = (isDefined(contexts[0].parameters.fields['previous-job']) &&
+                    contexts[0].parameters.fields['previous-job'] != '') ? contexts[0].parameters.fields['previous-job'].stringValue : '';
+                let years_of_experience = (isDefined(contexts[0].parameters.fields['years-of-experience']) &&
+                    contexts[0].parameters.fields['years-of-experience'] != '') ? contexts[0].parameters.fields['years-of-experience'].stringValue : '';
+                let job_vacancy = (isDefined(contexts[0].parameters.fields['job-vacancy']) &&
+                    contexts[0].parameters.fields['job-vacancy'] != '') ? contexts[0].parameters.fields['job-vacancy'].stringValue : '';
 
                 console.log('A new job enquiery from ' + user_name + '.<br> Previous job position: ' + previous_job + '.' +
-                '.<br> Years of experience: ' + years_of_experience + '.' +
-                '.<br> Phone number: ' + phone_number + '.');
+                    '.<br> Years of experience: ' + years_of_experience + '.' +
+                    '.<br> Phone number: ' + phone_number + '.');
 
 
-            if (phone_number != '' && user_name != '' && previous_job != '' && years_of_experience != ''
-                //&& job_vacancy != ''
+                if (phone_number != '' && user_name != '' && previous_job != '' && years_of_experience != ''
+                    //&& job_vacancy != ''
                 ) {
 
-                let emailContent = 'A new job enquiery from ' + user_name + //' for the job: ' + job_vacancy +
-                    '.<br> Previous job position: ' + previous_job + '.' +
-                    '.<br> Years of experience: ' + years_of_experience + '.' +
-                    '.<br> Phone number: ' + phone_number + '.';
+                    let emailContent = 'A new job enquiery from ' + user_name + //' for the job: ' + job_vacancy +
+                        '.<br> Previous job position: ' + previous_job + '.' +
+                        '.<br> Years of experience: ' + years_of_experience + '.' +
+                        '.<br> Phone number: ' + phone_number + '.';
 
-                console.log("Sending this mail: %s", emailContent);
-                sendEmail('New job application (from dialogflow!! :-) )', emailContent);
+                    console.log("Sending this mail: %s", emailContent);
+                    sendEmail('New job application (from dialogflow!! :-) )', emailContent);
 
-                handleMessages(messages, sender);
-            } else {
-                handleMessages(messages, sender);
+                    handleMessages(messages, sender);
+                } else {
+                    handleMessages(messages, sender);
+                }
             }
-        }
-        break;
+            break;
         case "faq-spedizione":
             handleMessages(messages, sender);
 
             sendTypingOn(sender);
 
             setTimeout(() => {
-                let buttons = [
-                    {
+                let buttons = [{
                         type: "web_url",
                         url: "https://www.google.com",
                         title: "Traccia la mia spedizione"
@@ -331,22 +329,21 @@ function sendEmail(subject, content_my) {
 
     var sg = require('sendgrid')(config.SENGRID_API_KEY);
     var request = sg.emptyRequest({
-    method: 'POST',
-    path: '/v3/mail/send',
-    body: mail.toJSON()
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: mail.toJSON()
     });
 
-    sg.API(request, function (error, response) {
-    if (error) {
-        console.log('Error response received');
-    }
-    else{
-        console.log('***** OK send mail ************');
-    }
+    sg.API(request, function(error, response) {
+        if (error) {
+            console.log('Error response received');
+        } else {
+            console.log('***** OK send mail ************');
+        }
 
-    console.log(response.statusCode);
-    console.log(response.body);
-    console.log(response.headers);
+        console.log(response.statusCode);
+        console.log(response.body);
+        console.log(response.headers);
     });
 
     /*
@@ -388,12 +385,11 @@ function handleMessage(message, sender) {
         case "quickReplies": //quick replies
             let replies = [];
             message.quickReplies.quickReplies.forEach((text) => {
-                let reply =
-                    {
-                        "content_type": "text",
-                        "title": text,
-                        "payload": text
-                    }
+                let reply = {
+                    "content_type": "text",
+                    "title": text,
+                    "payload": text
+                }
                 replies.push(reply);
             });
             sendQuickReply(sender, message.quickReplies.title, replies);
@@ -433,7 +429,7 @@ function handleCardMessages(messages, sender) {
 
         let element = {
             "title": message.card.title,
-            "image_url":message.card.imageUri,
+            "image_url": message.card.imageUri,
             "subtitle": message.card.subtitle,
             "buttons": buttons
         };
@@ -445,29 +441,29 @@ function handleCardMessages(messages, sender) {
 
 function handleMessages(messages, sender) {
     let timeoutInterval = 1100;
-    let previousType ;
+    let previousType;
     let cardTypes = [];
     let timeout = 0;
     // si va in loop su tutti i messaggi ricevuti
     for (var i = 0; i < messages.length; i++) {
 
-        if ( previousType == "card" && (messages[i].message != "card" || i == messages.length - 1)) {
+        if (previousType == "card" && (messages[i].message != "card" || i == messages.length - 1)) {
             // il precedente è un card ma l'attuale non lo è, quindi è il momento di fare il display della gallery
             timeout = (i - 1) * timeoutInterval;
             setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
             cardTypes = [];
             timeout = i * timeoutInterval;
             setTimeout(handleMessage.bind(null, messages[i], sender), timeout); // dopo aver visualizzato la gallery gestisco l'attuale messaggio
-                     //(handleMessage gestisce tutti i messaggi di testo, immagini o quick-replies)
-        } else if ( messages[i].message == "card" && i == messages.length - 1) {
+            //(handleMessage gestisce tutti i messaggi di testo, immagini o quick-replies)
+        } else if (messages[i].message == "card" && i == messages.length - 1) {
             // il messaggio, che è una card è l'ultimo dei messaggi, per cui è arrivato il momento di visualizzare la gallery
             cardTypes.push(messages[i]); // metto il messaggio nella card gallery
             timeout = (i - 1) * timeoutInterval;
             setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
             cardTypes = [];
-        } else if ( messages[i].message == "card") {
+        } else if (messages[i].message == "card") {
             cardTypes.push(messages[i]); // metto il messaggio nella card gallery
-        } else  {
+        } else {
             // E' un messaggio di testo o un altro tipo di messaggio differente da "card"
             timeout = i * timeoutInterval;
             setTimeout(handleMessage.bind(null, messages[i], sender), timeout); //handleMessage gestisce tutti i messaggi di testo, immagini o quick-replies
@@ -507,7 +503,7 @@ function handleDialogFlowResponse(sender, response) {
 }
 
 async function sendToDialogFlow(sender, textString, params) {
-    
+
     // è la funzione che realizza la request verso dialogflow
 
     sendTypingOn(sender); // questo chiede a Messenger di mostrare i puntini e il sound di attesa risposta... :-)
@@ -519,7 +515,7 @@ async function sendToDialogFlow(sender, textString, params) {
             config.GOOGLE_PROJECT_ID,
             sessionIds.get(sender)
         );
-        
+
         // costruiamo la Request da inviare a DialogFlow
         const request = {
             session: sessionPath,
@@ -552,6 +548,8 @@ async function sendToDialogFlow(sender, textString, params) {
 }
 
 function sendTextMessage(recipientId, text) {
+    console.log("sto mandando un messaggio al messenger");
+
     var messageData = {
         recipient: {
             id: recipientId
@@ -721,7 +719,7 @@ function sendGenericMessage(recipientId, elements) {
 
 
 function sendReceiptMessage(recipientId, recipient_name, currency, payment_method,
-                            timestamp, elements, address, summary, adjustments) {
+    timestamp, elements, address, summary, adjustments) {
     // Generate a random receipt ID as the API requires a unique ID
     var receiptId = "order" + Math.floor(Math.random() * 1000);
 
@@ -762,7 +760,7 @@ function sendQuickReply(recipientId, text, replies, metadata) {
         },
         message: {
             text: text,
-            metadata: isDefined(metadata)?metadata:'',
+            metadata: isDefined(metadata) ? metadata : '',
             quick_replies: replies
         }
     };
@@ -861,7 +859,7 @@ function callSendAPI(messageData) {
         method: 'POST',
         json: messageData
 
-    }, function (error, response, body) {
+    }, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             var recipientId = body.recipient_id;
             var messageId = body.message_id;
@@ -970,7 +968,7 @@ function receivedDeliveryConfirmation(event) {
     var sequenceNumber = delivery.seq;
 
     if (messageIDs) {
-        messageIDs.forEach(function (messageID) {
+        messageIDs.forEach(function(messageID) {
             console.log("Received delivery confirmation for message ID: %s",
                 messageID);
         });
@@ -1049,6 +1047,6 @@ function isDefined(obj) {
 }
 
 // Spin up the server
-app.listen(app.get('port'), function () {
+app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'))
 })
