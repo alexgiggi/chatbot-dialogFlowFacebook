@@ -326,6 +326,7 @@ function sendEmail(subject, content_my, email_to) {
     var helper = require('sendgrid').mail;
     var fromEmail = new helper.Email(config.EMAIL_FROM);
     var toEmail = new helper.Email(email_to);
+    console.log("Sending message email to: $s", email_to);
     var content = new helper.Content('text/plain', content_my);
     var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
