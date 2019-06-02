@@ -260,14 +260,16 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                     contexts[0].parameters.fields['years-of-experience'] != '') ? contexts[0].parameters.fields['years-of-experience'].stringValue : '';
                 let job_vacancy = (isDefined(contexts[0].parameters.fields['job-vacancy']) &&
                     contexts[0].parameters.fields['job-vacancy'] != '') ? contexts[0].parameters.fields['job-vacancy'].stringValue : '';
+                let email_user = (isDefined(contexts[0].parameters.fields['email_user']) &&
+                    contexts[0].parameters.fields['email_user'] != '') ? contexts[0].parameters.fields['email_user'].stringValue : '';
 
                 console.log('A new job enquiery from ' + user_name + '.<br> Previous job position: ' + previous_job + '.' +
                     '.<br> Years of experience: ' + years_of_experience + '.' +
-                    '.<br> Phone number: ' + phone_number + '.');
+                    '.<br> Phone number: ' + phone_number + '.' +
+                    '.<br> email_user: ' + email_user + '.');
 
-
-                if (phone_number != '' && user_name != '' && previous_job != '' && years_of_experience != ''
-                    //&& job_vacancy != ''
+                if (phone_number != '' && user_name != '' && previous_job != '' && years_of_experience != '' &&
+                    email_user != ''
                 ) {
 
                     let emailContent = 'A new job enquiery from ' + user_name + //' for the job: ' + job_vacancy +
@@ -276,7 +278,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                         '.<br> Phone number: ' + phone_number + '.';
 
                     console.log("Sending this mail: %s", emailContent);
-                    sendEmail('New job application (from dialogflow!! :-) )', emailContent);
+                    sendEmail('New job application (from dialogflow!! :-) )', emailContent, email_user);
 
                     handleMessages(messages, sender);
 
@@ -319,11 +321,11 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     }
 }
 
-function sendEmail(subject, content_my) {
+function sendEmail(subject, content_my, email_to) {
 
     var helper = require('sendgrid').mail;
     var fromEmail = new helper.Email(config.EMAIL_FROM);
-    var toEmail = new helper.Email(config.EMAIL_TO);
+    var toEmail = new helper.Email(email_to);
     var content = new helper.Content('text/plain', content_my);
     var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
