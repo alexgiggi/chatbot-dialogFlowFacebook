@@ -279,7 +279,9 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                     sendEmail('New job application (from dialogflow!! :-) )', emailContent);
 
                     handleMessages(messages, sender);
+
                 } else {
+                    console.log("Non tutti i parametri settati");
                     handleMessages(messages, sender);
                 }
             }
