@@ -779,7 +779,7 @@ function sendQuickReply(recipientId, text, replies, metadata) {
     };
 
     console.log("From sendQuickReply");
-    callSendAPI(messageData);
+    //callSendAPI(messageData);
 }
 
 /*
