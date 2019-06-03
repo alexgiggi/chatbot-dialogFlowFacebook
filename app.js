@@ -481,6 +481,8 @@ function handleMessages(messages, sender) {
 
 function handleDialogFlowResponse(sender, response) {
 
+    console.log("function handleDialogFlowResponse(sender, response)");
+
     // prendiamo quindi il text e il data
     let responseText = response.fulfillmentMessages.fulfillmentText;
 
