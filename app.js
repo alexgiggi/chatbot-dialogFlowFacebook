@@ -565,7 +565,8 @@ function sendTextMessage(recipientId, text) {
             text: text
         }
     }
-    callSendAPI(messageData);
+
+    //callSendAPI(messageData);
 }
 
 /*
