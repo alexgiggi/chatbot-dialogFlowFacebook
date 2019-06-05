@@ -271,7 +271,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
             break;
         }
-
+        /*
         case "detailed-application":
             if (isDefined(contexts[0]) &&
                 (contexts[0].name.includes('job-application') || contexts[0].name.includes('job-application-details_dialog_context') ||
@@ -344,6 +344,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                 sendButtonMessage(sender, "cosa vuoi fare adesso?", buttons);
             }, 3000); // aspetto 3 secondi
             break;
+        */
         default:
             //unhandled action, just send back the text
 
