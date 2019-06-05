@@ -360,7 +360,7 @@ async function sendEventToDialogFlow(sender, eventName, params) {
 
         const result = responses[0].queryResult;
         //console.log("Prima di handleDialogFlowResponse (dopo invio evento)");
-        handleDialogFlowResponse(sender, result);
+        handleDialogFlowResponseBis(sender, result);
     } catch (e) {
         console.log('error');
         console.log(e);
@@ -614,7 +614,37 @@ function handleDialogFlowResponse(sender, response) {
         handleDialogFlowAction(sender, action, messages, contexts, parameters);
     } else if (isDefined(messages)) {
         console.log("call handleMessages");
-        handleMessagesBis(messages, sender);
+        handleMessages(messages, sender); // mettendo BIS scrive il messaggio dell'evento
+    } else if (responseText == '' && !isDefined(action)) {
+        //dialogflow could not evaluate input --> non è stato inserito un Default Fallback Intent, quindi mando io un messaggio...
+        console.log("sendTextMessage: %s", "I'm not sure what you want. Can you be more specific?");
+        sendTextMessage(sender, "I'm not sure what you want. Can you be more specific?");
+    } else if (isDefined(responseText)) {
+        console.log("sendTextMessage: %s", responseText);
+        sendTextMessage(sender, responseText);
+    }
+}
+
+function handleDialogFlowResponseBis(sender, response) {
+
+    console.log("function handleDialogFlowResponseBis(sender, response)");
+
+    // prendiamo quindi il text e il data
+    let responseText = response.fulfillmentMessages.fulfillmentText;
+
+    let messages = response.fulfillmentMessages;
+    let action = response.action;
+    let contexts = response.outputContexts;
+    let parameters = response.parameters;
+
+    sendTypingOff(sender); //manda messaggio sonoro al messenger...
+
+    if (isDefined(action)) {
+        console.log("call handleDialogFlowAction");
+        handleDialogFlowAction(sender, action, messages, contexts, parameters);
+    } else if (isDefined(messages)) {
+        console.log("call handleMessages");
+        handleMessagesBis(messages, sender); 
     } else if (responseText == '' && !isDefined(action)) {
         //dialogflow could not evaluate input --> non è stato inserito un Default Fallback Intent, quindi mando io un messaggio...
         console.log("sendTextMessage: %s", "I'm not sure what you want. Can you be more specific?");
