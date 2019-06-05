@@ -607,7 +607,22 @@ function sendTextMessage(recipientId, text) {
         }
     }
 
-    //callSendAPI(messageData); //duplicazione messaggi
+    callSendAPI(messageData); //duplicazione messaggi
+}
+
+function sendTextMessageBis(recipientId, text) {
+    console.log("sto mandando un messaggio al messenger, testo: %s", text);
+
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: text
+        }
+    }
+
+    callSendAPI(messageData); //duplicazione messaggi
 }
 
 /*
