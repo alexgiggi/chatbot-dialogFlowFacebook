@@ -344,8 +344,8 @@ async function sendEventToDialogFlow(sender, eventName, params) {
             queryInput: {
                 event: {
                     name: eventName,
+                    languageCode: config.DF_LANGUAGE_CODE,
                 },
-                languageCode: config.DF_LANGUAGE_CODE
             },
             queryParams: {
                 payload: {
