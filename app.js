@@ -355,9 +355,8 @@ async function sendEventToDialogFlow(sender, eventName, params) {
         const responses = await sessionClient.detectIntent(request);
 
         const result = responses[0].queryResult;
-
-        // qui leggiamo la risposta di dialogFlow per vedere cosa ha trovato!!
-        console.log("Prima di handleDialogFlowResponse");        
+        console.log("Prima di handleDialogFlowResponse (dopo invio evento)");
+        handleDialogFlowResponse(sender, result);
     } catch (e) {
         console.log('error');
         console.log(e);
