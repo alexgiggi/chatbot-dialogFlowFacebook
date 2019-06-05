@@ -360,7 +360,7 @@ async function sendEventToDialogFlow(sender, eventName, params) {
 
         const result = responses[0].queryResult;
         //console.log("Prima di handleDialogFlowResponse (dopo invio evento)");
-        //handleDialogFlowResponse(sender, result);
+        handleDialogFlowResponse(sender, result);
     } catch (e) {
         console.log('error');
         console.log(e);
