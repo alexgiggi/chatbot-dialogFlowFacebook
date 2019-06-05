@@ -248,8 +248,10 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
             sendTypingOn(sender);
 
-            handleMessages(messages, sender);
+            handleMessage(messages, sender);
             console.log("*** evento %s inviato", "eventoCustom");
+
+            sendTypingOff(sender);
         }
 
         case "detailed-application":
