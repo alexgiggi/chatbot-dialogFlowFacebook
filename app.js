@@ -256,6 +256,8 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             console.log("*** evento %s inviato", "eventoCustom");
 
             sendTypingOff(sender);
+
+            break;
         }
 
         case "detailed-application":
@@ -329,7 +331,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                 ];
                 sendButtonMessage(sender, "cosa vuoi fare adesso?", buttons);
             }, 3000); // aspetto 3 secondi
-
+            break;
         default:
             //unhandled action, just send back the text
 
