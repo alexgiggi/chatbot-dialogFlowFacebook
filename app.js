@@ -465,6 +465,7 @@ function handleMessageBis(message, sender) {
             });
             break;
         case "quickReplies": //quick replies
+            console.log("quickReplies dentro handleMessageBis");
             let replies = [];
             message.quickReplies.quickReplies.forEach((text) => {
                 let reply = {
@@ -479,6 +480,8 @@ function handleMessageBis(message, sender) {
         case "image": //image
             sendImageMessage(sender, message.image.imageUri);
             break;
+        default:
+                console.log("default dentro handleMessageBis");
     }
 }
 
