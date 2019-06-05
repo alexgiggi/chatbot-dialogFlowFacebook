@@ -241,6 +241,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     }
 
     console.log("**** Action pervenuta: $s", action);
+    console.log("nome contesto(0): $s", contexts[0].name);
 
     switch (action) {
         case "verificaFarmaco":
