@@ -245,7 +245,9 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('3prenotazione-farmaco-followup')) && contexts[0].parameters) {
             console.log("*** verificaFarmaco *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
             sendEventToDialogFlow(sender, "eventoCustom");
-            //handleDialogFlowResponse(sender, result);
+
+            sendTypingOn(sender);
+
             handleMessages(messages, sender);
             console.log("*** evento %s inviato", "eventoCustom");
         }
