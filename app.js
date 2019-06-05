@@ -296,7 +296,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
                 } else {
                     console.log("Non tutti i parametri settati");
-                    handleMessages(messages, sender);
+                    //handleMessages(messages, sender);
                 }
             }
             break;
