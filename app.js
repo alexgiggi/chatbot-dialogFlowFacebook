@@ -614,7 +614,7 @@ function handleDialogFlowResponse(sender, response) {
         handleDialogFlowAction(sender, action, messages, contexts, parameters);
     } else if (isDefined(messages)) {
         console.log("call handleMessages");
-        handleMessages(messages, sender);
+        handleMessagesBis(messages, sender);
     } else if (responseText == '' && !isDefined(action)) {
         //dialogflow could not evaluate input --> non è stato inserito un Default Fallback Intent, quindi mando io un messaggio...
         console.log("sendTextMessage: %s", "I'm not sure what you want. Can you be more specific?");
