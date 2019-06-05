@@ -65,7 +65,7 @@ if (!config.WEATHER_API_KEY) { //weather api key
     throw new Error('missing WEATHER_API_KEY');
 }
 
-*/
+
 
 if (!config.PG_CONFIG) { //pg config
     throw new Error('missing PG_CONFIG');
@@ -79,6 +79,8 @@ if (!config.ADMIN_ID) { //admin id for login
 if (!config.FB_PAGE_INBOX_ID) { //page inbox id - the receiver app
     throw new Error('missing FB_PAGE_INBOX_ID');
 }
+
+*/
 
 app.set('port', (process.env.PORT || 5000))
 
