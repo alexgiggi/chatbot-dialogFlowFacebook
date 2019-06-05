@@ -247,11 +247,11 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
         case "actionRaccoltaDatiPrenotazione":
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) && contexts[0].parameters) {
                 console.log("*** FINE RACCOLTA *** ");
-                sendTypingOn(sender);
+                //sendTypingOn(sender);
 
                 //handleMessagesBis(messages, sender);
 
-                sendTypingOff(sender);
+                //sendTypingOff(sender);
 
                 break;
             }
@@ -262,12 +262,12 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
             sendEventToDialogFlow(sender, "eventoCustom");
 
-            sendTypingOn(sender);
+            //sendTypingOn(sender);
 
             //handleMessagesBis(messages, sender);
             console.log("*** evento %s inviato", "eventoCustom");
 
-            sendTypingOff(sender);
+            //sendTypingOff(sender);
 
             break;
         }
