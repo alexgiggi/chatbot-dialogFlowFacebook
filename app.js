@@ -469,7 +469,7 @@ function handleMessageBis(message, sender) {
                 }
                 replies.push(reply);
             });
-            sendQuickReply(sender, message.quickReplies.title, replies);
+            sendQuickReplyBis(sender, message.quickReplies.title, replies);
             break;
         case "image": //image
             sendImageMessage(sender, message.image.imageUri);
@@ -891,6 +891,22 @@ function sendReceiptMessage(recipientId, recipient_name, currency, payment_metho
  *
  */
 function sendQuickReply(recipientId, text, replies, metadata) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: text,
+            metadata: isDefined(metadata) ? metadata : '',
+            quick_replies: replies
+        }
+    };
+
+    console.log("From sendQuickReply");
+    //callSendAPI(messageData); //tolto per duplicazione messaggi...
+}
+
+function sendQuickReplyBis(recipientId, text, replies, metadata) {
     var messageData = {
         recipient: {
             id: recipientId
