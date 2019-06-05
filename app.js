@@ -248,7 +248,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
             sendTypingOn(sender);
 
-            handleMessageBis(messages, sender);
+            handleMessagesBis(messages, sender);
             console.log("*** evento %s inviato", "eventoCustom");
 
             sendTypingOff(sender);
@@ -549,6 +549,43 @@ function handleMessages(messages, sender) {
 
     }
 }
+
+
+function handleMessagesBis(messages, sender) {
+    let timeoutInterval = 1100;
+    let previousType;
+    let cardTypes = [];
+    let timeout = 0;
+    // si va in loop su tutti i messaggi ricevuti
+    for (var i = 0; i < messages.length; i++) {
+
+        if (previousType == "card" && (messages[i].message != "card" || i == messages.length - 1)) {
+            // il precedente è un card ma l'attuale non lo è, quindi è il momento di fare il display della gallery
+            timeout = (i - 1) * timeoutInterval;
+            setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
+            cardTypes = [];
+            timeout = i * timeoutInterval;
+            setTimeout(handleMessageBis.bind(null, messages[i], sender), timeout); // dopo aver visualizzato la gallery gestisco l'attuale messaggio
+            //(handleMessage gestisce tutti i messaggi di testo, immagini o quick-replies)
+        } else if (messages[i].message == "card" && i == messages.length - 1) {
+            // il messaggio, che è una card è l'ultimo dei messaggi, per cui è arrivato il momento di visualizzare la gallery
+            cardTypes.push(messages[i]); // metto il messaggio nella card gallery
+            timeout = (i - 1) * timeoutInterval;
+            setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
+            cardTypes = [];
+        } else if (messages[i].message == "card") {
+            cardTypes.push(messages[i]); // metto il messaggio nella card gallery
+        } else {
+            // E' un messaggio di testo o un altro tipo di messaggio differente da "card"
+            timeout = i * timeoutInterval;
+            setTimeout(handleMessageBis.bind(null, messages[i], sender), timeout); //handleMessage gestisce tutti i messaggi di testo, immagini o quick-replies
+        }
+
+        previousType = messages[i].message;
+
+    }
+}
+
 
 function handleDialogFlowResponse(sender, response) {
 
