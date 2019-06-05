@@ -16,9 +16,10 @@
     "body-parser": "^1.19.0",
     "dialogflow": "^0.8.2",
     "express": "^4.17.0",
+    "google-gax": "^1.0.0",
+    "pg": "^7.11.0",
     "request": "^2.88.0",
     "sendgrid": "^5.2.3",
-    "uuid": "^3.3.2",
-    "google-gax": "^1.0.0"
+    "uuid": "^3.3.2"
   }
 }
