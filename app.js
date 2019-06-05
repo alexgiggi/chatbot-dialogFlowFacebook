@@ -607,7 +607,7 @@ function sendTextMessage(recipientId, text) {
         }
     }
 
-    callSendAPI(messageData); //duplicazione messaggi
+    //callSendAPI(messageData); //duplicazione messaggi
 }
 
 function sendTextMessageBis(recipientId, text) {
