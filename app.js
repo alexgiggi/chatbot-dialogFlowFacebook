@@ -244,6 +244,8 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
         case "verificaFarmaco":
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('3prenotazione-farmaco-followup')) && contexts[0].parameters) {
             console.log("*** verificaFarmaco *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
+            sendEventToDialogFlow(sender, "eventoCustom");
+            console.log("*** evento %s inviato", "eventoCustom");
         }
 
         case "detailed-application":
@@ -323,6 +325,48 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
             //handleMessages(messages, sender);
     }
+}
+
+async function sendEventToDialogFlow(sender, eventName, params) {
+
+    // è la funzione che realizza la request verso dialogflow
+
+    sendTypingOn(sender); // questo chiede a Messenger di mostrare i puntini e il sound di attesa risposta... :-)
+
+    try {
+        // come prima cosa viene settata la sessione che consentirà a dialogFlow di tracciare le attività del particolare user (sender)
+        console.log('config.GOOGLE_PROJECT_ID: %s', config.GOOGLE_PROJECT_ID);
+        const sessionPath = sessionClient.sessionPath(config.GOOGLE_PROJECT_ID, sessionIds.get(sender));
+
+        // costruiamo la Request da inviare a DialogFlow
+        const request = {
+            session: sessionPath,
+            queryInput: {
+                text: {
+                    text: eventName,
+                    languageCode: config.DF_LANGUAGE_CODE,
+                },
+            },
+            queryParams: {
+                payload: {
+                    data: params
+                }
+            }
+        };
+
+        // aspettiamo per una risposta da DialogFlow
+        const responses = await sessionClient.detectIntent(request);
+
+        const result = responses[0].queryResult;
+
+        // qui leggiamo la risposta di dialogFlow per vedere cosa ha trovato!!
+        console.log("Prima di handleDialogFlowResponse");
+        handleDialogFlowResponse(sender, result);
+    } catch (e) {
+        console.log('error');
+        console.log(e);
+    }
+
 }
 
 function sendEmail(subject, content_my, email_to) {
