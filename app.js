@@ -250,7 +250,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                 console.log("*** FINE RACCOLTA *** ");
                 //sendTypingOn(sender);
 
-                handleMessagesBis(messages, sender);
+                handleMessages(messages, sender);
 
                 //sendTypingOff(sender);
 
