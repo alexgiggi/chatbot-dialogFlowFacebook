@@ -245,6 +245,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('3prenotazione-farmaco-followup')) && contexts[0].parameters) {
             console.log("*** verificaFarmaco *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
             sendEventToDialogFlow(sender, "eventoCustom");
+            handleDialogFlowResponse(sender, result);
             console.log("*** evento %s inviato", "eventoCustom");
         }
 
@@ -355,8 +356,7 @@ async function sendEventToDialogFlow(sender, eventName, params) {
         const result = responses[0].queryResult;
 
         // qui leggiamo la risposta di dialogFlow per vedere cosa ha trovato!!
-        console.log("Prima di handleDialogFlowResponse");
-        handleDialogFlowResponse(sender, result);
+        console.log("Prima di handleDialogFlowResponse");        
     } catch (e) {
         console.log('error');
         console.log(e);
@@ -596,7 +596,7 @@ async function sendToDialogFlow(sender, textString, params) {
 }
 
 function sendTextMessage(recipientId, text) {
-    console.log("sto mandando un messaggio al messenger, testo: $s", text);
+    console.log("sto mandando un messaggio al messenger, testo: %s", text);
 
     var messageData = {
         recipient: {
