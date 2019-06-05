@@ -59,9 +59,14 @@ if (!config.EMAIL_FROM) { //sending email
 if (!config.EMAIL_TO) { //sending email
     throw new Error('missing EMAIL_TO');
 }
+
+/*
 if (!config.WEATHER_API_KEY) { //weather api key
     throw new Error('missing WEATHER_API_KEY');
 }
+
+*/
+
 if (!config.PG_CONFIG) { //pg config
     throw new Error('missing PG_CONFIG');
 }
