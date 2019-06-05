@@ -18,6 +18,7 @@
     "express": "^4.17.0",
     "google-gax": "^1.0.0",
     "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
     "pg": "^7.11.0",
     "request": "^2.88.0",
     "sendgrid": "^5.2.3",
