@@ -240,6 +240,8 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
         }
     }
 
+    console.log("**** Action pervenuta: $s", action);
+
     switch (action) {
         case "verificaFarmaco":
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('3prenotazione-farmaco-followup')) && contexts[0].parameters) {
