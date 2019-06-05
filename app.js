@@ -342,10 +342,10 @@ async function sendEventToDialogFlow(sender, eventName, params) {
         const request = {
             session: sessionPath,
             queryInput: {
-                text: {
-                    text: eventName,
-                    languageCode: config.DF_LANGUAGE_CODE,
+                event: {
+                    name: eventName,
                 },
+                languageCode: config.DF_LANGUAGE_CODE
             },
             queryParams: {
                 payload: {
