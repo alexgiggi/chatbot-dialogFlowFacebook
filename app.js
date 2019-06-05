@@ -424,6 +424,7 @@ function sendEmail(subject, content_my, email_to) {
 }
 
 function handleMessage(message, sender) {
+    console.log("chiamata a handleMessage");
     switch (message.message) {
         case "text": //text
             message.text.text.forEach((text) => {
@@ -435,6 +436,7 @@ function handleMessage(message, sender) {
         case "quickReplies": //quick replies
             let replies = [];
             message.quickReplies.quickReplies.forEach((text) => {
+                console.log("ciclo interno a handleMessage, message: %s", text);
                 let reply = {
                     "content_type": "text",
                     "title": text,
@@ -451,10 +453,12 @@ function handleMessage(message, sender) {
 }
 
 function handleMessageBis(message, sender) {
+    console.log("chiamata a handleMessageBis");
     switch (message.message) {
         case "text": //text
             message.text.text.forEach((text) => {
                 if (text !== '') {
+                    console.log("ciclo interno a handleMessageBis, message: %s", text);
                     sendTextMessageBis(sender, text);
                 }
             });
