@@ -245,8 +245,8 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
     switch (action) {
         case "actionRaccoltaDatiPrenotazione":
-            if (isDefined(contexts[0]) &&(contexts[0].name.includes('out_ricetta_no')) && contexts[0].parameters) {
-                console.log("*** verificaFarmaco *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
+            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) && contexts[0].parameters) {
+                console.log("*** FINE RACCOLTA *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
                 sendTypingOn(sender);
 
                 //handleMessagesBis(messages, sender);
