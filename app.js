@@ -429,6 +429,7 @@ function handleMessage(message, sender) {
         case "text": //text
             message.text.text.forEach((text) => {
                 if (text !== '') {
+                    console.log("ciclo interno a handleMessage, message: %s", text);
                     sendTextMessage(sender, text);
                 }
             });
