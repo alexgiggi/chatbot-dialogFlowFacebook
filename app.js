@@ -678,7 +678,7 @@ function sendTextMessage(recipientId, text) {
 }
 
 function sendTextMessageBis(recipientId, text) {
-    console.log("sto mandando un messaggio al messenger, testo: %s", text);
+    console.log("sto mandando un messaggio al messenger (bis), testo: %s", text);
 
     var messageData = {
         recipient: {
@@ -1009,7 +1009,7 @@ function sendAccountLinking(recipientId) {
  */
 function callSendAPI(messageData) {
 
-    console.log("callSendAPI, messageData: $s", messageData);
+    console.log("callSendAPI, messageData: %s", messageData);
 
     request({
         uri: 'https://graph.facebook.com/v3.2/me/messages',
