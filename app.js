@@ -248,7 +248,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
             sendTypingOn(sender);
 
-            handleMessage(messages, sender);
+            handleMessageBis(messages, sender);
             console.log("*** evento %s inviato", "eventoCustom");
 
             sendTypingOff(sender);
@@ -450,6 +450,32 @@ function handleMessage(message, sender) {
     }
 }
 
+function handleMessageBis(message, sender) {
+    switch (message.message) {
+        case "text": //text
+            message.text.text.forEach((text) => {
+                if (text !== '') {
+                    sendTextMessageBis(sender, text);
+                }
+            });
+            break;
+        case "quickReplies": //quick replies
+            let replies = [];
+            message.quickReplies.quickReplies.forEach((text) => {
+                let reply = {
+                    "content_type": "text",
+                    "title": text,
+                    "payload": text
+                }
+                replies.push(reply);
+            });
+            sendQuickReply(sender, message.quickReplies.title, replies);
+            break;
+        case "image": //image
+            sendImageMessage(sender, message.image.imageUri);
+            break;
+    }
+}
 
 function handleCardMessages(messages, sender) {
 
