@@ -101,6 +101,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
+/*
 app.use(session(
     {
         secret: 'keyboard cat',
@@ -108,11 +109,11 @@ app.use(session(
         saveUninitilized: true
     }
 ));
+*/
 
-
-app.use(passport.initialize());
-app.use(passport.session());
-
+//app.use(passport.initialize());
+//app.use(passport.session());
+/*
 passport.serializeUser(function(profile, cb) {
     cb(null, profile);
 });
@@ -143,7 +144,7 @@ app.get('/auth/facebook/callback',
 
 app.set('view engine', 'ejs');
 
-
+*/
 
 const credentials = {
     client_email: config.GOOGLE_CLIENT_EMAIL,
