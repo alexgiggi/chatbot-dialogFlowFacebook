@@ -261,12 +261,12 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('out_ricetta_no')) && contexts[0].parameters) {
             console.log("*** verificaFarmaco *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
 
-            sendEventToDialogFlow(sender, "eventoCustom");
+            sendEventToDialogFlow(sender, "farmacoTrovato");
 
             //sendTypingOn(sender);
 
             //handleMessagesBis(messages, sender);
-            console.log("*** evento %s inviato", "eventoCustom");
+            console.log("*** evento %s inviato", "farmacoTrovato");
 
             //sendTypingOff(sender);
 
