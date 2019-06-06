@@ -977,7 +977,7 @@ function sendQuickReplyBis(recipientId, text, replies, metadata) {
     };
 
     console.log("From sendQuickReply");
-    //callSendAPI(messageData); //tolto per duplicazione messaggi...
+    callSendAPI(messageData); //tolto per duplicazione messaggi...
 }
 
 /*
