@@ -245,8 +245,8 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
     switch (action) {
         case "actionRaccoltaDatiPrenotazione":
-            //if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) && contexts[0].parameters) {
-            if (isDefined(contexts[0]) && contexts[0].parameters) {
+            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) && contexts[0].parameters) {
+            //if (isDefined(contexts[0]) && contexts[0].parameters) {
                 console.log("*** FINE RACCOLTA *** ");
                 //sendTypingOn(sender);
 
