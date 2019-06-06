@@ -261,12 +261,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('out_ricetta_no')) && contexts[0].parameters) {
             console.log("*** verificaFarmaco *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
 
-            //if (contexts[0].parameters.fields['farmacoscelto'].stringValue.toUpperCase().includes('ASPIRINA')){
-                sendEventToDialogFlow(sender, "farmacoTrovato");
-            //}
-            //else{
-            //    sendEventToDialogFlow(sender, "farmacoNonTrovato");
-            //}
+            sendEventToDialogFlow(sender, "farmacoTrovato");
 
             //sendTypingOn(sender);
 
