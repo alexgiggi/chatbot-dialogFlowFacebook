@@ -240,12 +240,12 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
         }
     }
 
-    console.log("**** Action pervenuta: $s", action);
-    console.log("nome contesto(0): $s", contexts[0].name);
+    console.log("**** Action pervenuta: %s", action);
+    console.log("nome contesto(0): %s", contexts[0].name);
 
     switch (action) {
         case "actionRaccoltaDatiPrenotazione":
-            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) && contexts[0].parameters) {
+            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) /*&& contexts[0].parameters*/) {
             //if (isDefined(contexts[0]) && contexts[0].parameters) {
                 console.log("*** FINE RACCOLTA *** ");
                 //sendTypingOn(sender);
