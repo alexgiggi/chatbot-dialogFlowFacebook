@@ -262,7 +262,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             if (isDefined(contexts[0]) &&(contexts[0].name.includes('out_ricetta_no')) && contexts[0].parameters) {
             console.log("*** verificaFarmaco *** --> %s", contexts[0].parameters.fields['farmacoscelto'].stringValue);
 
-            let emailContent = 'Ciao, ho prenotato il farmaco' + contexts[0].parameters.fields['farmacoscelto'].stringValue + '. E\' disponibile per il ritiro da questo pomeriggio. Grazie per aver utilizzato il nostro servizio';
+            let emailContent = 'Ciao, il farmaco che ci hai indicato, ' + contexts[0].parameters.fields['farmacoscelto'].stringValue + ', è stato prenotato. Sarà disponibile per il ritiro da questo pomeriggio. Grazie per aver utilizzato il nostro servizio';
 
             console.log("Sending this mail: %s", emailContent);
             sendEmail('Prenotazione farmaco (from dialogflow!! :-) )', emailContent, 'apupita@gmail.com');
