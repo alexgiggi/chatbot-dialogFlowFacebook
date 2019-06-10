@@ -244,15 +244,15 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     console.log("nome contesto(0): %s", contexts[0].name);
 
     switch (action) {
-        case "actionRaccoltaDatiPrenotazione":
-            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) /*&& contexts[0].parameters*/) {
+        case "actionRaccoltaDatiPrenotazioneOK":
+            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta_ok')) /*&& contexts[0].parameters*/) {
                 console.log("**** FINE RACCOLTA **** ");
                 handleMessagesBis(messages, sender);
                 break;
             }
 
         case "actionRaccoltaDatiPrenotazioneNo":
-            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta')) /*&& contexts[0].parameters*/) {
+            if (isDefined(contexts[0]) &&(contexts[0].name.includes('fine_raccolta_ko')) /*&& contexts[0].parameters*/) {
                 console.log("**** FINE RACCOLTA **** ");
                 handleMessagesBis(messages, sender);
                 break;
@@ -280,7 +280,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
                 //sendTypingOn(sender);
 
                 //handleMessagesBis(messages, sender);
-                console.log("*** evento %s inviato", "farmacoTrovato");
+                //console.log("*** evento %s inviato", "farmacoTrovato");
 
                 //sendTypingOff(sender);
 
